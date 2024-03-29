@@ -38,6 +38,7 @@ def add_task(task):
     if task:
         incomplete_tasks.append(task)
         save_reminders(incomplete_tasks, complete_tasks)  # Save reminders after adding a task
+        eel.updateReminderData()
     else:
         print("Warning", "The task cannot be empty.")
 
@@ -49,6 +50,7 @@ def complete_task(task):
         incomplete_tasks.remove(task)
         complete_tasks.append(task)
         save_reminders(incomplete_tasks, complete_tasks)  # Save reminders after completing a task
+        eel.updateReminderData()
 
         return ("Task completed and removed from reminders: " + task)
     else:

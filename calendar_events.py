@@ -82,6 +82,8 @@ def create_event(title, start, end, location):
         }
     )
 
+    if(True): #if the event added starts today - CHANGE
+        eel.updateDailyEventsData()
     return "Event has been added to calendar."
     '''
     events = nylas.events.create(

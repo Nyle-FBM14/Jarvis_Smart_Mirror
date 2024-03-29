@@ -10,10 +10,9 @@ import eel
 from dotenv import load_dotenv
 from os import getenv
 load_dotenv()
-
 API_KEY = getenv("WEATHER_API_KEY")
-from facialrecognition import main_location
 
+main_location = "Toronto"
 current_weather_data = {
     "location": "Toronto",
     "region": "ON",
@@ -26,6 +25,10 @@ current_weather_data = {
 }
 hourly_weather_data = [None, None, None, None, None, None, None]
 forecast_data = [None, None, None, None, None, None, None]
+
+@eel.expose
+def getMainLocation():
+    return main_location
 
 def parseCurrentWeatherData(data):
     global current_weather_data

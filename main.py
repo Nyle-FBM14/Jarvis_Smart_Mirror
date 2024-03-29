@@ -4,9 +4,9 @@ import threading
 eel.init('web')
 
 #import all functions that should be exposed to eel
-from weather import getForecast, getCurrentWeatherData, getHourlyWeatherData, getForecastData
+from weather import getForecast, getCurrentWeatherData, getHourlyWeatherData, getForecastData, getMainLocation
 from reminder import getReminders, load_reminders
-from facialrecognition import getMainLocation, getUsername
+from facialrecognition import getUsername
 
 from jarvis import initiateJarvis
 t = threading.Thread(target=initiateJarvis)

@@ -10,6 +10,7 @@ from weather import getForecast
 from reminder import add_task, complete_task
 from calendar_events import create_event
 from ui import expandCalendar, close
+from maps import get_directions
 
 load_dotenv()
 client = OpenAI()
@@ -121,6 +122,32 @@ tools = [
             "description": "It goes back to the main page. It closes expanded windows that the user no longer needs to see. Use this if the user says they are done looking something."
         }
     },
+    {
+        "type": "function",
+        "function":{
+            "name": "get_directions",
+            "description": "Gives the user directions on how to get to their destination. Usually from home to work.",
+            "parameters": {
+                "type": "object",
+                "properties": {
+                    "origin": {
+                        "type": "string",
+                        "description": "The user's place of origin, in terms of location. If one is not given then return an empty string. The default home address that is saved in the program will be used."
+                    },
+                    "destination": {
+                        "type": "string",
+                        "description": "The user's desired destination. If one is not given then return an empty string. The default work address that is saved in the program will be used."
+                    },
+                    "mode": {
+                        "type": "string",
+                        "description": "The user's mode of transportation. If one is not given then return an empty string. Else return either driving, transit, walking, or bicycling."
+                    }
+                },
+                "required": [
+                ]
+            }
+        }
+    },
 ]
 def askJarvis(command):
 
@@ -131,6 +158,7 @@ def askJarvis(command):
         "create_event": create_event,
         "expandCalendar": expandCalendar,
         "close": close,
+        "get_directions": get_directions,
     }
     messages = [{"role": "user", "content": command}]
     response = client.chat.completions.create(
@@ -164,8 +192,6 @@ def askJarvis(command):
             #reminder functions
             elif(function_to_call == add_task):
                 function_response = function_to_call(task = function_parameters.get("task"))
-                eel.updateReminderData()
-
                 return "Task added." #saving tokens, can be removed
             elif(function_to_call == complete_task):
                 from reminder import incomplete_tasks
@@ -180,15 +206,12 @@ def askJarvis(command):
                     messages=messages_t
                 ).choices[0].message.content
                 function_response = function_to_call(task = task)
-                eel.updateReminderData()
 
                 return "Task removed from to-do list." #saving tokens, can be removed
             
             #calendar functions
             elif(function_to_call == create_event):
                 function_response = function_to_call(title = function_parameters.get("title"), start = function_parameters.get("start"), end = function_parameters.get("end"), location = function_parameters.get("location"))
-                if(True): #if the event added starts today CHANGE
-                    eel.updateDailyEventsData()
                 
                 return "Event has been added to calendar." #saving tokens, can be removed
             elif(function_to_call == expandCalendar):
@@ -200,7 +223,12 @@ def askJarvis(command):
                 function_to_call()
                 return("Switched") #saving tokens, can be removed
             
+            #map functions
+            elif(function_to_call == get_directions):
+                function_response = function_to_call(origin = function_parameters.get("origin"), destination = function_parameters.get("destination"), mode = function_parameters.get("mode"))
+                return "map gpt" #REMOVE
             
+
             #GPT's response to the request, not the function's return
             messages.append(
                 {

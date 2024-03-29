@@ -1,16 +1,13 @@
 import eel
-#from ui import switch_to_main_ui
+from ui import switch_to_main_ui
 
-#global variables
-global username, main_location
+#set this when user is logged in
+global username
 username = "Guest"
-main_location = "Toronto"
 
 @eel.expose
 def getUsername():
     return username
-@eel.expose
-def getMainLocation():
-    return main_location
+
 #when user is logged in, use this to switch to main page
-#switch_to_main_ui()
+switch_to_main_ui()

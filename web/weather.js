@@ -1,6 +1,5 @@
 var currentWeatherData, hourlyWeatherData, forecastData;
-let hourly_forecast = document.getElementById("hourly_forecast");
-let weekly_forecast = document.getElementById("weekly_forecast");
+
 
 function updateWeatherSection(){
     document.getElementById("current_temp").innerHTML = currentWeatherData['temp'];
@@ -13,10 +12,13 @@ function updateWeatherSection(){
     document.getElementById("current_region").innerHTML = currentWeatherData['region'];
     document.getElementById("current_icon").src = "https:" + currentWeatherData['icon'];
     document.getElementById("current_icon").alt = currentWeatherData['condition'];
-
+    
+    let hourly_forecast = document.getElementById("hourly_forecast");
+    let weekly_forecast = document.getElementById("weekly_forecast");
+    hourly_forecast.innerHTML = "";
+    weekly_forecast.innerHTML = "";
     for (let i = 0; i < 7; i++) {
-        hourly_forecast.innerHTML = "";
-        weekly_forecast.innerHTML = "";
+        
         //hourly
         fetch(`./hourly_weather.html`)
         .then(res => {

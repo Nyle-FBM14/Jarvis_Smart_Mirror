@@ -1,8 +1,10 @@
 {
     "incomplete": [
-        "sweep the floor"
+        "sweep the floor",
+        "Complete mime homework"
     ],
     "complete": [
-        "wash the dishes"
+        "wash the dishes",
+        "do my homework"
     ]
 }
