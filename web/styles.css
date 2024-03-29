@@ -1,0 +1,170 @@
+#facial_recognition {
+    background-color: #f2dda4;
+    height: 100%;
+    width: 100%;
+    position: absolute;
+    top: 0;
+    left: 0;
+    text-align: center;
+}
+.blank {
+    background-color: black;
+    border: 2px;
+    border-color: white;
+    margin: auto;
+    height: 80%;
+    width: 80%;
+}
+.hline {
+    border-bottom: 1px solid black;
+    width: 70%;
+    margin: auto;
+}
+
+.main {
+    background-color: black;
+    color: white;
+    width: 1920px;
+    height: 1080px;
+    margin: 0;
+    position: fixed;
+    top: 0;
+    left: 0;
+    padding: 10px;
+    display: grid;
+    grid-template-areas:
+        'left middle middle middle right';
+    gap: 10px;
+}
+#left {
+    grid-area: left;
+}
+#empty {
+    grid-area: middle;
+}
+#right {
+    grid-area: right;
+}
+#name {
+    padding: 10px;
+}
+#username {
+    font-family: 'Times New Roman', Times, serif;
+    font-weight: bolder;
+    font-size: x-large;
+    text-align: center;
+    padding-left: 40px;
+}
+#time {
+    border-style: solid;
+    border-width: 3px;
+    border-color: #C0A6DD;
+    border-radius: 25px;
+
+    font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
+    font-weight: bolder;
+    font-size: xx-large;
+    text-align: center;
+    padding: 10px 0px;
+    max-height: 44px;
+}
+#calendar_section {
+    border-style: solid;
+    border-width: 3px;
+    border-color: #89C1D1;
+    border-radius: 25px;
+
+    margin: 10px 0px;
+    padding: 10px;
+    max-width:100%;
+}
+#weather_section {
+    border-style: solid;
+    border-width: 3px;
+    border-color: #FFDB70;
+    border-radius: 25px;
+
+    padding: 10px;
+    max-height: 489px;
+    margin: 10px 0px;
+}
+#reminder_section {
+    border-style: solid;
+    border-width: 3px;
+    border-color: #E28DA8;
+    border-radius: 25px;
+    background-image: url("./images/reminders_background.png");
+    background-size: contain;
+
+    max-width:60%;
+    justify-content: center;
+    text-align: center;
+    color: black;
+}
+#map_section {
+    border-style: solid;
+    border-width: 3px;
+    border-color: #DAFEB7;
+    border-radius: 25px;
+
+    max-height: 489px;
+}
+/*WEATHER STYLING */
+.weather_icon {
+    margin: -2px 0;
+}
+#upper_weather {
+    display: flex;
+    color: white;
+}
+
+#hourly_forecast {
+    display: flex;
+    justify-content: space-between;
+    color: white;
+    
+}
+
+#weekly_forecast {
+    display: flex;
+    justify-content: space-between;
+    color: white;
+}
+
+.hourly_weather {
+    border-style: solid;
+    border-width: 1px;
+    border-color: #FFEBAD;
+    border-radius: 15px;
+
+    text-align: center;
+    line-height: 10%;
+}
+
+.day_weather {
+    border-style: solid;
+    border-width: 1px;
+    border-color: #FFEBAD;
+    border-radius: 15px;
+
+    text-align: center;
+    line-height: 10%;
+}
+
+/*REMINDERS STYLING */
+
+#todo_title {
+    font-family: 'Times New Roman', Times, serif;
+    font-size: x-large;
+}
+
+/*CALENDAR STYLING*/
+th, td {
+    border: solid 1px white;
+    width: 100px;
+}
+
+.time_col {
+    width: 30px;
+    padding: 2px;
+}
