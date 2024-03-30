@@ -10,4 +10,4 @@ def getUsername():
     return username
 
 #when user is logged in, use this to switch to main page
-switch_to_main_ui()
+#switch_to_main_ui()
