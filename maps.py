@@ -4,6 +4,11 @@ import requests
 from io import BytesIO
 from html.parser import HTMLParser
 
+from dotenv import load_dotenv
+from os import getenv
+load_dotenv()
+API_KEY = getenv("MAPS_API_KEY")
+
 home_address = "835+Roselawn+Avenue+Toronto+ON"
 work_address = "350+Victoria+Street+Toronto+ON"
 
@@ -30,22 +35,6 @@ def build_static_map_url(location1, location2, api_key):
     url = base_url + "&".join([f"{key}={value}" for key, value in parameters.items()])
     return url
 
-def display_static_map(location1, location2, api_key):
-    static_map_url = build_static_map_url(location1, location2, api_key)
-    response = requests.get(static_map_url)
-
-    '''
-    # Read the PNG file as binary data
-    with open(response.content, 'rb') as file:
-        image_data = file.read()
-    
-    # Convert binary data to Base64-encoded string
-    base64_data = base64.b64encode(image_data).decode('utf-8')
-    
-    return base64_data'''
-
-    return response.content
-
 def format_directions(raw_directions):
     parser = HTMLStripper()
     formatted_directions = []
@@ -70,7 +59,7 @@ def parse_directions(directions):
 def get_directions(origin = home_address, destination = work_address, mode = "transit", **kwargs):
     if(origin == "" or origin == None or origin == "home"):
         origin = home_address
-    if(destination == "" or destination == None or destination == "home"):
+    if(destination == "" or destination == None or destination == "work"):
         destination = work_address
     if(mode == "" or mode == None or mode == "home"):
         mode = "transit"
@@ -78,9 +67,10 @@ def get_directions(origin = home_address, destination = work_address, mode = "tr
     print(origin)
     print(destination)
     print(mode)
-    '''
-    map_image = display_static_map(origin, destination, api_key) #i'm gonna insert this as the src in an <img> tag
-    api_key = "INSERT_API_KEY"
+    api_key = API_KEY
+
+    map_image = build_static_map_url(origin, destination, api_key) #i'm gonna insert this as the src in an <img> tag
+    
     base_url = "https://maps.googleapis.com/maps/api/directions/json"
     params = {
         "origin": origin,
@@ -108,12 +98,13 @@ def get_directions(origin = home_address, destination = work_address, mode = "tr
         }
         print("Error:", response.status_code)
         return "Failed to fetch directions."'''
+    
     map_data = {
         "origin": origin,
         "destination": destination,
         "map": "./images/cet.png",
         "directions": "Error fetching directions"
-    }
+    }'''
     eel.showMap(map_data)
     return "map test"
     #return directions #gpt will respond to user with directions

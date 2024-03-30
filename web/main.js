@@ -26,5 +26,10 @@ setInterval(updateTime, 1000);
 updateTime();
 
 /* adding the sections */
-let username = "Nyle";
-document.getElementById("username").innerText = username;
+let username = "Guest";
+eel.getUsername()().then(function(name) {
+    username = name;
+    document.getElementById("username").innerHTML = username;
+}).catch(function(error) {
+    console.error("Error fetching data:", error);
+});
