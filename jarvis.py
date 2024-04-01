@@ -11,6 +11,8 @@ from reminder import add_task, complete_task
 from calendar_events import create_event
 from ui import expandCalendar, close
 from maps import get_directions
+from facialrecognition import facial_code
+
 
 load_dotenv()
 client = OpenAI()
@@ -258,6 +260,6 @@ def initiateJarvis():
 
             if("bye" in command.lower()):
                 print("Goodbye sire")
-                break
+                facial_code()
             else:
                 print("GPT response to user: " + askJarvis(command))
