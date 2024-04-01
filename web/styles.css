@@ -106,8 +106,14 @@
     border-width: 3px;
     border-color: #DAFEB7;
     border-radius: 25px;
-
+    display: block;
+    justify-content: initial;
     max-height: 489px;
+}
+#map_section p {
+    display: block;
+    justify-content: initial;
+    margin-bottom: 5px;
 }
 /*WEATHER STYLING */
 .weather_icon {
