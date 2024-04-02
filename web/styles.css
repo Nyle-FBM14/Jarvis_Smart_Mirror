@@ -41,9 +41,17 @@
 }
 #empty {
     grid-area: middle;
+    position: relative;
 }
 #right {
     grid-area: right;
+}
+#mic_icon {
+    position: absolute;
+    bottom: 0;
+    max-width: 40px;
+    max-height: 40px;
+    left: 50%;
 }
 #name {
     padding: 10px;

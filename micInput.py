@@ -1,8 +1,10 @@
+import os
 import struct
 import wave
 import pyaudio
 import requests
 import pvporcupine
+import threading
 from os import getenv
 from dotenv import load_dotenv
 load_dotenv()
@@ -14,6 +16,8 @@ PORCUPINE_API_KEY = getenv("PORCUPINE_API_KEY")
 samplingRate = 48000
 numChannels = 2
 samplingWidth = 2
+chunk = 48000 * 5 #num of frames to record at a time, it is multiplied by number of seconds
+silence_threshold = 10000
 
 def transcribeCommand():
     url = "https://transcribe.whisperapi.com"
@@ -34,7 +38,14 @@ def transcribeCommand():
     response = requests.post(url, headers=headers, files=file, data=data)
     return(response.json())
 
+def checkSilence(audio_data):
+    global command_unfinished
+    energy = sum(abs(sample) ** 2 for sample in audio_data) / len(audio_data)
+    print(energy)
+    print(energy > silence_threshold)
+    command_unfinished = energy > silence_threshold
 def getVoiceCommand():
+    global command_unfinished
     p =  pyaudio.PyAudio()
     activeListening = p.open(rate = samplingRate, channels = numChannels, format = p.get_format_from_width(samplingWidth), input = True)
     wf = wave.open("command.wav", 'wb')
@@ -43,8 +54,22 @@ def getVoiceCommand():
     wf.setsampwidth(samplingWidth)
 
     print("Recording")
-    wf.writeframes(activeListening.read(250000)) #hardcoded number of frames - about 5s of input
+    '''
+    command_unfinished = True
+    audio_buffer = b""
+    stop_flag = threading.Event()
+    
+    while(command_unfinished):
+        audio_data = activeListening.read(chunk)
+        m = threading.Thread(target=checkSilence, kwargs={"audio_data": list(audio_data)})
+        m.start()
+        audio_buffer += audio_data
+        m.join()
+    wf.writeframes(audio_buffer)'''
+
+    audio_data = activeListening.read(chunk)
     print("Done")
+    wf.writeframes(audio_data)
 
     activeListening.close()
     wf.close()

@@ -258,7 +258,9 @@ def initiateJarvis():
     while True:
         print("Listening for keyword")
         if(listen()):
+            eel.changeMicIcon("listening")
             getVoiceCommand()
+            eel.changeMicIcon("mic")
             command = transcribeCommand()["text"]
             print("Transcripted command: " + command)
 

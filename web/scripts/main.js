@@ -33,3 +33,12 @@ eel.getUsername()().then(function(name) {
 }).catch(function(error) {
     console.error("Error fetching data:", error);
 });
+
+eel.expose(changeMicIcon);
+function changeMicIcon(state){
+    console.log("here");
+    let icon = document.getElementById("mic_icon");
+    icon.src = `images/${state}_icon.png`
+    icon.alt = `${state} icon`
+    console.log(icon.src);
+}

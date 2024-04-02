@@ -93,6 +93,12 @@ def create_event(title, dates, start_times, end_times,  location):
     print(dates)
     print(start_times)
     print(end_times)
+    if(dates == None):
+        dates = str(date.today().strftime("%Y-%m-%d"))
+    if(start_times == None):
+        start_times = str(datetime.now().time().strftime("%H:%M"))
+    if(end_times == None):
+        end_times = str((datetime.now() + timedelta(hours=1)).time().strftime("%H:%M"))
     date_list = dates.split(",")
     start_list = start_times.split(",")
     end_list = end_times.split(",")
