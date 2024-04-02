@@ -7,4 +7,4 @@ def expandCalendar():
     eel.openWeekView()
 
 def close():
-    eel.reloadMainPage()
+    eel.reloadMainPage() #just closes week view

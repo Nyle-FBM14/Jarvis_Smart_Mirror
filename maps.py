@@ -97,14 +97,15 @@ def get_directions(origin = home_address, destination = work_address, mode = "tr
             "directions": "Error fetching directions"
         }
         print("Error:", response.status_code)
-        return "Failed to fetch directions."'''
+        return "Failed to fetch directions."
     
+    '''
     map_data = {
         "origin": origin,
         "destination": destination,
         "map": "./images/cet.png",
         "directions": "Error fetching directions"
-    }'''
+    }#'''
     eel.showMap(map_data)
     return "map test"
     #return directions #gpt will respond to user with directions

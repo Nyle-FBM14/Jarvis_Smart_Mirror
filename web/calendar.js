@@ -1,8 +1,9 @@
 //DAILY EVENTS
 function updateCalendarSection(daily_events){
-    let times = ["12AM", "1AM", "2AM", "3AM", "4AM", "5AM", "6AM", "7AM", "8AM", "9AM", "10AM", "11AM", "12PM", "1PM", "2PM", "3PM", "4PM", "5PM", "6PM", "7PM", "8PM", "9PM", "10PM", "11PM"];
     let calendar_section = document.getElementById("calendar_section");
     calendar_section.innerHTML = "";
+    let header = document.createElement("h1");
+    header.innerHTML = "Today's Events";
     for(let i = 0; i < daily_events.length; i++){
         fetch(`./event.html`)
         .then(res => {
@@ -11,18 +12,16 @@ function updateCalendarSection(daily_events){
             }
         }).then(html => {
             //fill out placeholders
-            if(daily_events[i]['dates'].length > 1){
-                html = html.replace(/\[event_end_var\]/g, "continued");
-            }
-            else if(daily_events[i]['time_slots'][daily_events[i]['time_slots'].length - 1] == 12){
-                html = html.replace(/\[event_end_var\]/g, "12AM");
+            html = html.replace(/\[event_var\]/g, daily_events[i]['title']);
+            html = html.replace(/\[event_start_var\]/g, daily_events[i]['start']);
+            html = html.replace(/\[event_end_var\]/g, daily_events[i]['end']);
+            if(daily_events[i]['location'] != null){
+                html = html.replace(/\[event_location_var\]/g, daily_events[i]['location']);
             }
             else{
-                html = html.replace(/\[event_end_var\]/g, times[daily_events[i]['time_slots'][daily_events[i]['time_slots'].length - 1] + 1]);
+                html = html.replace(/\[event_location_var\]/g, "Unavailable");
             }
-            html = html.replace(/\[event_var\]/g, daily_events[i]['title']);
-            html = html.replace(/\[event_start_var\]/g, times[daily_events[i]['time_slots'][0]]);
-            html = html.replace(/\[event_location_var\]/g, daily_events[i]['location']);
+            
 
             let temp = document.createElement('div');
             temp.style.border = "solid 1px #E28DA8";
@@ -47,23 +46,59 @@ function updateDailyEventsData() {
 }
 
 //WEEKLY EVENTS
+function updateWeekView(events){
+    for(let i = 0; i < events.length; i++){
+        let weekday = events[i]['weekday'];
+        let time = events[i]['time'];
+        let cell_id = `${weekday}_${time}`;
+        console.log(cell_id)
+        let cell = document.getElementById(cell_id);
+        cell.innerHTML = "";
+        fetch(`./event.html`)
+        .then(res => {
+            if(res.ok) {
+                return res.text();
+            }
+        }).then(html => {
+            //fill out placeholders
+            html = html.replace(/\[event_var\]/g, events[i]['title']);
+            html = html.replace(/\[event_start_var\]/g, events[i]['start']);
+            html = html.replace(/\[event_end_var\]/g, events[i]['end']);
+            if(events[i]['location'] != null){
+                html = html.replace(/\[event_location_var\]/g, events[i]['location']);
+            }
+            else{
+                html = html.replace(/\[event_location_var\]/g, "Unavailable");
+            }
+            
+
+            let temp = document.createElement('div');
+            temp.style.border = "solid 1px #E28DA8";
+            temp.style.borderRadius = "25px";
+            temp.style.marginTop = "5px";
+            temp.style.maxHeight = "120px";
+            temp.style.padding = "5px 0px 5px 20px";
+            temp.innerHTML = html;
+            cell.appendChild(temp);
+            
+        });
+    }
+}
 eel.expose(openWeekView);
 function openWeekView() {
-    let calendar_section = document.getElementById("calendar_section");
-    calendar_section.innerHTML = "";
-    fetch(`./weekView.html`)
-    .then(res => {
-        if(res.ok) {
-            return res.text();
-        }
-    }).then(html => {
-        calendar_section.innerHTML = html;
+    let weekView = document.getElementById("calendar_week");
+    weekView.style.display = "block";
+    eel.getWeekEvents()().then(function(weekly_events) {
+        updateWeekView(weekly_events);
+    }).catch(function(error) {
+        console.error("Error fetching data:", error);
     });
 }
 //INITIALIZE MAIN PAGE
 updateDailyEventsData();
 
-eel.expose(reloadMainPage); //can move to main.js if other sections implement an expanded view
+eel.expose(reloadMainPage); //can move to main.js if other sections implement an expanded view, this just closes week view
 function reloadMainPage() {
-    updateDailyEventsData();
+    let weekView = document.getElementById("calendar_week");
+    weekView.style.display = "none";
 }

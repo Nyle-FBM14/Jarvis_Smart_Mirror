@@ -168,3 +168,7 @@ th, td {
     width: 30px;
     padding: 2px;
 }
+
+#calendar_week {
+    display: none;
+}

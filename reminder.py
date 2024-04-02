@@ -13,7 +13,7 @@ def getReminders():
 @eel.expose
 def load_reminders():
     global incomplete_tasks, complete_tasks
-    reminders_filename = f"reminders/{username}/{username}_reminders.json"
+    reminders_filename = f"UserData/reminders/{username}_reminders.json"
     if not os.path.exists(reminders_filename):
         incomplete_tasks, complete_tasks = [], []  # Returns empty lists if the file does not exist
     else:
@@ -22,7 +22,7 @@ def load_reminders():
         incomplete_tasks, complete_tasks = data.get('incomplete', []), data.get('complete', [])
 
 def save_reminders(incomplete_reminders, complete_reminders):
-    directory_path = f"reminders/{username}"  # Define the directory path
+    directory_path = f"UserData/reminders/"  # Define the directory path
     reminders_filename = f"{directory_path}/{username}_reminders.json"
     data = {'incomplete': incomplete_reminders, 'complete': complete_reminders}
     

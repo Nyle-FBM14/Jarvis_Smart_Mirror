@@ -1,102 +1,111 @@
 import eel
 import time
-import datetime
+from datetime import date, datetime, timedelta
 import os
-
+import json
+from facialrecognition import username
 #time slots: if a time is listed, it is assumed that the event runs for an hour
 #ints will be used to represent the hours of the day
 #meaning if 7pm(19) is listed, the event runs from 7pm(19) to 8pm(20). 8pm(20) does not need to be put in the list
-events = [
-    {
-        "title": "Easter Sunday",
-        "dates": ["Sunday"],
-        "time_slots": [0, 23],
-        "location": "Everywhere"
-    },
-    {
-        "title": "Doctah Apoyment",
-        "dates": ["Wednesday"],
-        "time_slots": [15, 16],
-        "location": "Everywhere"
-    },
-    {
-        "title": "Meeting",
-        "dates": ["Monday", "Tuesday", "Thursday"],
-        "time_slots": [14, 15, 16, 22],
-        "location": "Everywhere"
-    },
-]
+events = []
+
+def getHour(time_string):
+    return int(datetime.strptime(time_string, "%H:%M").hour)
+def getWeekday(date_string):
+    weekdays = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"]
+    day = datetime.strptime(date_string, "%Y-%m-%d").date()
+    return weekdays[day.weekday()]
+def getLastWeekday():
+    current_day = date.today()
+    days_until_saturday = (5 - current_day.weekday()) % 7
+    return current_day + timedelta(days=days_until_saturday)
+def isWithinWeek(date, saturday):
+    d = datetime.strptime(date, "%Y-%m-%d")
+    return d.date() <= saturday
+def eventIsLive(date, saturday):
+    d = datetime.strptime(date, "%Y-%m-%d")
+    sunday = saturday - timedelta(days=6)
+    return d < (sunday)
+def loadEvents():
+    global events
+    if(not len(events)):
+        filename = f"UserData/calendar/{username}_events.json"
+        if os.path.exists(filename):
+            with open(filename, 'r') as file:
+                events = json.load(file)
+
+    #print(events)
+def saveEvents():
+    global events
+    new_events = []
+    for event in events:
+        if eventIsLive(event['dates'][-1], getLastWeekday()):
+            new_events.append(event)
+    
+    events = new_events
+    filename = f"UserData/calendar/{username}_events.json"
+    with open(filename, 'w') as file:
+        json.dump(new_events, file, indent=4)
+
 @eel.expose
 def getDayEvents():
-    '''
-    end_of_day = datetime.datetime.combine(datetime.date.today(), datetime.time.max)
-    events = nylas.events.list(
-        grant_id,
-        query_params={
-        "calendar_id": os.environ.get("CALENDAR_ID"),
-        "start": int(end_of_day.timestamp())
-        }
-    )['data'] #list of events that started today and ongoing events that started before the end of day
-    #assuming nylas only returns events that have not ended yet. if not, filter live events that are still going on this day'''
+    global events
+    loadEvents()
 
-    return events
+    daily_events = []
+    for event in events:
+        if date.today().strftime("%Y-%m-%d") in event['dates']:
+            for i in range(len(event['start_times'])):
+                daily_event = {
+                    "title": event['title'],
+                    "start": event['start_times'][i],
+                    "end": event['end_times'][i],
+                    "location": event['location']
+                }
+                daily_events.append(daily_event)
+    return daily_events
 
 @eel.expose
 def getWeekEvents():
-    '''
-    current_date = datetime.date.today()
-    end_of_week = current_date + datetime.timedelta(days=(6 - current_date.weekday()))
-    end_of_week = datetime.datetime.combine(end_of_week, datetime.time.max)
+    global events
+    loadEvents()
+    times = ["12AM", "1AM", "2AM", "3AM", "4AM", "5AM", "6AM", "7AM", "8AM", "9AM", "10AM", "11AM", "12PM", "1PM", "2PM", "3PM", "4PM", "5PM", "6PM", "7PM", "8PM", "9PM", "10PM", "11PM"]
+    weekly_events = []
+    for event in events:
+        for date in event['dates']:
+            if isWithinWeek(date, getLastWeekday()):
+                for i in range(len(event['start_times'])):
+                    weekly_event = {
+                        "title": event['title'],
+                        "start": event['start_times'][i],
+                        "end": event['end_times'][i],
+                        "location": event['location'],
+                        "weekday": getWeekday(date),
+                        "time": times[getHour(event['start_times'][i])]
+                    }
+                    weekly_events.append(weekly_event)
 
-    events = nylas.events.list(
-        grant_id,
-        query_params={
-        "calendar_id": os.environ.get("CALENDAR_ID"),
-        "start": int(end_of_week.timestamp())
-        }
-    )['data'] #list of events that started today and ongoing events that started before the end of the week
-    #assuming nylas only returns events that have not ended yet. if not, filter live events that are still going on this week'''
+    return weekly_events
 
-    return events
-
-def create_event(title, start, end, location):
-    if(isinstance(start, int)):
-        ts = datetime.datetime.fromtimestamp(start)
-        ts = ts.strftime('%Y-%m-%d %H:%M:%S')
-        print(ts)
-    if(isinstance(end, int)):
-        te = datetime.datetime.fromtimestamp(end)
-        te = te.strftime('%Y-%m-%d %H:%M:%S')
-        print(te)
+def create_event(title, dates, start_times, end_times,  location):
     print(title)
     print(location)
-    print(start)
-    print(end)
-
+    print(dates)
+    print(start_times)
+    print(end_times)
+    date_list = dates.split(",")
+    start_list = start_times.split(",")
+    end_list = end_times.split(",")
     events.append(
         {
-            "title": "test add",
-            "dates": ["Sunday"],
-            "time_slots": [14, 16,],
-            "location": "peepee"
+            "title": title,
+            "dates": date_list,
+            "start_times": start_list,
+            "end_times": end_list,
+            "location": location
         }
     )
-
-    if(True): #if the event added starts today - CHANGE
+    saveEvents()
+    if(datetime.strptime(date_list[0], "%Y-%m-%d").date() == date.today()): #if the event added starts today - CHANGE
         eel.updateDailyEventsData()
     return "Event has been added to calendar."
-    '''
-    events = nylas.events.create(
-        grant_id,
-        request_body={
-            "title": title,
-            "when": {
-            "start_time": start,
-            "end_time": end,
-            "location": location
-            },
-        },
-        query_params={
-            "calendar_id": os.environ.get("CALENDAR_ID")
-        }
-    )'''
