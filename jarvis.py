@@ -266,6 +266,5 @@ def initiateJarvis():
 
             if("bye" in command.lower()):
                 print("Goodbye sire")
-                facial_code()
             else:
                 print("GPT response to user: " + askJarvis(command))

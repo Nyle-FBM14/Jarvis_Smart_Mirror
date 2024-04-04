@@ -29,7 +29,6 @@ def facial_code():
             print("Error: %s - %s." % (e.filename, e.strerror))
         cap.release()
         root.destroy() # Properly destroy the current Tkinter window
-        switch_to_main_ui()
 
     # Load the pre-trained Haarcascades face detection model
     face_cascade = cv2.CascadeClassifier(cv2.data.haarcascades + 'haarcascade_frontalface_default.xml')
@@ -40,12 +39,14 @@ def facial_code():
     # Initialize Tkinter window
     root = Tk()
     root.title("Facial Recognition Demo")
+    root.config(bg="black")  # specify background color
+
 
     # Create a label for displaying the video feed
     video_label = Label(root)
     video_label.pack(pady=20)
 
-    welcome_label = Label(root, text="Welcome - Please Look At the Mirror", font=('Helvetica 14 bold'), fg='black')
+    welcome_label = Label(root, text="Welcome - Please Look At the Mirror", font=('Helvetica 14 bold'), fg='white', bg='black')
     welcome_label.pack(pady=20)
 
     def load_encodings():
@@ -127,7 +128,7 @@ def facial_code():
                     recognized_name = name
 
             if recognized_name:
-                welcome_label.config(text=f"Welcome {recognized_name}!")
+                welcome_label.config(text=f"Welcome {recognized_name}!", font=('Helvetica 14 bold'), fg='white', bg='black')
                 
                 encoding_directory = f"UserData/encoding/{recognized_name}"
                 # Check if file with the same name exists
@@ -144,7 +145,7 @@ def facial_code():
                 
                 switch_to_main(recognized_name)
             else:
-                welcome_label.config(text="Hello, New User!")
+                welcome_label.config(text="Hello, New User!", font=('Helvetica 14 bold'), fg='white', bg='black')
                 
                 # Save the encoding dump to the relevant folder
                 name = input("Enter the name of the person: ")  # Ask for the name of the person
@@ -158,14 +159,14 @@ def facial_code():
                 switch_to_main(name)
 
         except IndexError:
-            welcome_label.config(text="No Face Detected")
+            welcome_label.config(text="No Face Detected", font=('Helvetica 14 bold'), fg='white', bg='black')
 
     # Button to trigger face recognition
-    recognize_button = Button(root, text="Recognize Face", command=recognize_face)
+    recognize_button = Button(root, text="Recognize Face", command=recognize_face, font=('Helvetica 14 bold'), fg='white', bg='black')
     recognize_button.pack(pady=10)
 
     # Button to trigger the transition to the second page
-    switch_button = Button(root, text="Switch to Main UI", command=lambda: switch_to_main("Testing"))
+    switch_button = Button(root, text="Switch to Main UI", command=lambda: switch_to_main("Testing"), font=('Helvetica 14 bold'), fg='white', bg='black')
     switch_button.pack(pady=10)
 
     # Start the Tkinter mainloop

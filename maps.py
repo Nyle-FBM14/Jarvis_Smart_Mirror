@@ -1,4 +1,5 @@
 import base64
+import os
 import eel
 import requests
 from io import BytesIO
@@ -8,9 +9,27 @@ from dotenv import load_dotenv
 from os import getenv
 load_dotenv()
 API_KEY = getenv("MAPS_API_KEY")
+from facialrecognition import username
 
 home_address = "835+Roselawn+Avenue+Toronto+ON"
 work_address = "350+Victoria+Street+Toronto+ON"
+
+def get_addresses(username):
+    address_file = f"Userdata/address/{username}.txt"
+    home_address = "835+Roselawn+Avenue+Toronto+ON"
+    work_address = "350+Victoria+Street+Toronto+ON"
+    if os.path.exists(address_file):
+        with open(address_file, "r") as file:
+            lines = file.readlines()
+            for line in lines:
+                key, value = line.strip().split(":")
+                if key.strip().lower() == "home":
+                    home_address = value.strip()
+                    home_address = home_address.replace("+", " ").replace('"', '')
+                elif key.strip().lower() == "work":
+                    work_address = value.strip()
+                    work_address = work_address.replace("+", " ").replace('"', '')
+    return home_address, work_address
 
 class HTMLStripper(HTMLParser):
     def __init__(self):
@@ -26,7 +45,7 @@ def build_static_map_url(location1, location2, api_key):
     encoded_location2 = "+".join(location2.split())
     parameters = {
         "center": f"{encoded_location1}|{encoded_location2}",
-        "size": "500x500",
+        "size": "400x400",
         "zoom": 10,
         "markers": f"{encoded_location1}|{encoded_location2}",
         "path": f"color:red|{encoded_location1}|{encoded_location2}",
@@ -46,21 +65,31 @@ def format_directions(raw_directions):
 
 def parse_directions(directions):
     directions_text = ""
-    if directions:
-        steps = directions["routes"][0]["legs"][0]["steps"]
-        formatted_steps = format_directions(steps) #not sure if this returns html elements or strings, but I'm gonna assume strings
-        for step in formatted_steps:
-            directions_text += step + "\n"
-    else:
-        directions_text = "Failed to fetch directions."
-    
+    try:
+        if directions and "routes" in directions and directions["routes"]:
+            steps = directions["routes"][0]["legs"][0]["steps"]
+            formatted_steps = format_directions(steps)
+            for step in formatted_steps:
+                directions_text += step + "\n"
+        else:
+            raise KeyError("Directions data is incomplete or missing.")
+    except KeyError as e:
+        directions_text = f"Failed to parse directions: {e}"
     return directions_text
 
-def get_directions(origin = home_address, destination = work_address, mode = "transit", **kwargs):
+def get_directions(origin = home_address, destination = work_address, mode = "transit", **kwargs):   
+    home_address, work_address = get_addresses(username)
+    
+    print(origin)
+    print(destination)
     if(origin == "" or origin == None or origin == "home"):
         origin = home_address
+    elif(origin == "work"):
+        origin = work_address
     if(destination == "" or destination == None or destination == "work"):
         destination = work_address
+    elif(destination == "home"):
+        destination = home_address
     if(mode == "" or mode == None or mode == "home"):
         mode = "transit"
     
