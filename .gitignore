@@ -1,3 +1,4 @@
 # ignore ALL .env files
 *.env
 command.wav
+__pycache__

@@ -15,16 +15,268 @@
                     <p style="font-family: 'Times New Roman', Times, serif; font-size: large;">Welcome</p>
                     <span id="username"></span>
                 </div>
-                <div id="calendar_section">
-                    <h1>Today's Events</h1>
-                </div>
+                <div id="calendar_section"></div>
                 <div id="reminder_section">
                     <h1 id="todo_title">TO DO LIST</h1>
                     <div class="hline"></div>
                     <div id="reminders_list"></div>
                 </div>
             </div>
-            <div id="empty">empty</div>
+            <div id="empty">
+                <table id="calendar_week">
+                    <tr>
+                        <th class="time_col">Time</th>
+                        <th>Sunday</th>
+                        <th>Monday</th>
+                        <th>Tuesday</th>
+                        <th>Wednesday</th>
+                        <th>Thursday</th>
+                        <th>Friday</th>
+                        <th>Saturday</th>
+                    </tr>
+                    <tr>
+                        <td class="time_col">12AM</td>
+                        <td id="Sunday_12AM"></td>
+                        <td id="Monday_12AM"></td>
+                        <td id="Tuesday_12AM"></td>
+                        <td id="Wednesday_12AM"></td>
+                        <td id="Thursday_12AM"></td>
+                        <td id="Friday_12AM"></td>
+                        <td id="Saturday_12AM"></td>
+                    </tr>
+                    <tr>
+                        <td class="time_col">1AM</td>
+                        <td id="Sunday_1AM"></td>
+                        <td id="Monday_1AM"></td>
+                        <td id="Tuesday_1AM"></td>
+                        <td id="Wednesday_1AM"></td>
+                        <td id="Thursday_1AM"></td>
+                        <td id="Friday_1AM"></td>
+                        <td id="Saturday_1AM"></td>
+                    </tr>
+                    <tr>
+                        <td class="time_col">2AM</td>
+                        <td id="Sunday_2AM"></td>
+                        <td id="Monday_2AM"></td>
+                        <td id="Tuesday_2AM"></td>
+                        <td id="Wednesday_2AM"></td>
+                        <td id="Thursday_2AM"></td>
+                        <td id="Friday_2AM"></td>
+                        <td id="Saturday_2AM"></td>
+                    </tr>
+                    <tr>
+                        <td class="time_col">3AM</td>
+                        <td id="Sunday_3AM"></td>
+                        <td id="Monday_3AM"></td>
+                        <td id="Tuesday_3AM"></td>
+                        <td id="Wednesday_3AM"></td>
+                        <td id="Thursday_3AM"></td>
+                        <td id="Friday_3AM"></td>
+                        <td id="Saturday_3AM"></td>
+                    </tr>
+                    <tr>
+                        <td class="time_col">4AM</td>
+                        <td id="Sunday_4AM"></td>
+                        <td id="Monday_4AM"></td>
+                        <td id="Tuesday_4AM"></td>
+                        <td id="Wednesday_4AM"></td>
+                        <td id="Thursday_4AM"></td>
+                        <td id="Friday_4AM"></td>
+                        <td id="Saturday_4AM"></td>
+                    </tr>
+                    <tr>
+                        <td class="time_col">5AM</td>
+                        <td id="Sunday_5AM"></td>
+                        <td id="Monday_5AM"></td>
+                        <td id="Tuesday_5AM"></td>
+                        <td id="Wednesday_5AM"></td>
+                        <td id="Thursday_5AM"></td>
+                        <td id="Friday_5AM"></td>
+                        <td id="Saturday_5AM"></td>
+                    </tr>
+                    <tr>
+                        <td class="time_col">6AM</td>
+                        <td id="Sunday_6AM"></td>
+                        <td id="Monday_6AM"></td>
+                        <td id="Tuesday_6AM"></td>
+                        <td id="Wednesday_6AM"></td>
+                        <td id="Thursday_6AM"></td>
+                        <td id="Friday_6AM"></td>
+                        <td id="Saturday_6AM"></td>
+                    </tr>
+                    <tr>
+                        <td class="time_col">7AM</td>
+                        <td id="Sunday_7AM"></td>
+                        <td id="Monday_7AM"></td>
+                        <td id="Tuesday_7AM"></td>
+                        <td id="Wednesday_7AM"></td>
+                        <td id="Thursday_7AM"></td>
+                        <td id="Friday_7AM"></td>
+                        <td id="Saturday_7AM"></td>
+                    </tr>
+                    <tr>
+                        <td class="time_col">8AM</td>
+                        <td id="Sunday_8AM"></td>
+                        <td id="Monday_8AM"></td>
+                        <td id="Tuesday_8AM"></td>
+                        <td id="Wednesday_8AM"></td>
+                        <td id="Thursday_8AM"></td>
+                        <td id="Friday_8AM"></td>
+                        <td id="Saturday_8AM"></td>
+                    </tr>
+                    <tr>
+                        <td class="time_col">9AM</td>
+                        <td id="Sunday_9AM"></td>
+                        <td id="Monday_9AM"></td>
+                        <td id="Tuesday_9AM"></td>
+                        <td id="Wednesday_9AM"></td>
+                        <td id="Thursday_9AM"></td>
+                        <td id="Friday_9AM"></td>
+                        <td id="Saturday_9AM"></td>
+                    </tr>
+                    <tr>
+                        <td class="time_col">10AM</td>
+                        <td id="Sunday_10AM"></td>
+                        <td id="Monday_10AM"></td>
+                        <td id="Tuesday_10AM"></td>
+                        <td id="Wednesday_10AM"></td>
+                        <td id="Thursday_10AM"></td>
+                        <td id="Friday_10AM"></td>
+                        <td id="Saturday_10AM"></td>
+                    </tr>
+                    <tr>
+                        <td class="time_col">11AM</td>
+                        <td id="Sunday_11AM"></td>
+                        <td id="Monday_11AM"></td>
+                        <td id="Tuesday_11AM"></td>
+                        <td id="Wednesday_11AM"></td>
+                        <td id="Thursday_11AM"></td>
+                        <td id="Friday_11AM"></td>
+                        <td id="Saturday_11AM"></td>
+                    </tr>
+                    <tr>
+                        <td class="time_col">12PM</td>
+                        <td id="Sunday_12PM"></td>
+                        <td id="Monday_12PM"></td>
+                        <td id="Tuesday_12PM"></td>
+                        <td id="Wednesday_12PM"></td>
+                        <td id="Thursday_12PM"></td>
+                        <td id="Friday_12PM"></td>
+                        <td id="Saturday_12PM"></td>
+                    </tr>
+                    <tr>
+                        <td class="time_col">1PM</td>
+                        <td id="Sunday_1PM"></td>
+                        <td id="Monday_1PM"></td>
+                        <td id="Tuesday_1PM"></td>
+                        <td id="Wednesday_1PM"></td>
+                        <td id="Thursday_1PM"></td>
+                        <td id="Friday_1PM"></td>
+                        <td id="Saturday_1PM"></td>
+                    </tr>
+                    <tr>
+                        <td class="time_col">2PM</td>
+                        <td id="Sunday_2PM"></td>
+                        <td id="Monday_2PM"></td>
+                        <td id="Tuesday_2PM"></td>
+                        <td id="Wednesday_2PM"></td>
+                        <td id="Thursday_2PM"></td>
+                        <td id="Friday_2PM"></td>
+                        <td id="Saturday_2PM"></td>
+                    </tr>
+                    <tr>
+                        <td class="time_col">3PM</td>
+                        <td id="Sunday_3PM"></td>
+                        <td id="Monday_3PM"></td>
+                        <td id="Tuesday_3PM"></td>
+                        <td id="Wednesday_3PM"></td>
+                        <td id="Thursday_3PM"></td>
+                        <td id="Friday_3PM"></td>
+                        <td id="Saturday_3PM"></td>
+                    </tr>
+                    <tr>
+                        <td class="time_col">4PM</td>
+                        <td id="Sunday_4PM"></td>
+                        <td id="Monday_4PM"></td>
+                        <td id="Tuesday_4PM"></td>
+                        <td id="Wednesday_4PM"></td>
+                        <td id="Thursday_4PM"></td>
+                        <td id="Friday_4PM"></td>
+                        <td id="Saturday_4PM"></td>
+                    </tr>
+                    <tr>
+                        <td class="time_col">5PM</td>
+                        <td id="Sunday_5PM"></td>
+                        <td id="Monday_5PM"></td>
+                        <td id="Tuesday_5PM"></td>
+                        <td id="Wednesday_5PM"></td>
+                        <td id="Thursday_5PM"></td>
+                        <td id="Friday_5PM"></td>
+                        <td id="Saturday_5PM"></td>
+                    </tr>
+                    <tr>
+                        <td class="time_col">6PM</td>
+                        <td id="Sunday_6PM"></td>
+                        <td id="Monday_6PM"></td>
+                        <td id="Tuesday_6PM"></td>
+                        <td id="Wednesday_6PM"></td>
+                        <td id="Thursday_6PM"></td>
+                        <td id="Friday_6PM"></td>
+                        <td id="Saturday_6PM"></td>
+                    </tr>
+                    <tr>
+                        <td class="time_col">7PM</td>
+                        <td id="Sunday_7PM"></td>
+                        <td id="Monday_7PM"></td>
+                        <td id="Tuesday_7PM"></td>
+                        <td id="Wednesday_7PM"></td>
+                        <td id="Thursday_7PM"></td>
+                        <td id="Friday_7PM"></td>
+                        <td id="Saturday_7PM"></td>
+                    </tr>
+                    <tr>
+                        <td class="time_col">8PM</td>
+                        <td id="Sunday_8PM"></td>
+                        <td id="Monday_8PM"></td>
+                        <td id="Tuesday_8PM"></td>
+                        <td id="Wednesday_8PM"></td>
+                        <td id="Thursday_8PM"></td>
+                        <td id="Friday_8PM"></td>
+                        <td id="Saturday_8PM"></td>
+                    </tr>
+                    <tr>
+                        <td class="time_col">9PM</td>
+                        <td id="Sunday_9PM"></td>
+                        <td id="Monday_9PM"></td>
+                        <td id="Tuesday_9PM"></td>
+                        <td id="Wednesday_9PM"></td>
+                        <td id="Thursday_9PM"></td>
+                        <td id="Friday_9PM"></td>
+                        <td id="Saturday_9PM"></td>
+                    </tr>
+                    <tr>
+                        <td class="time_col">10PM</td>
+                        <td id="Sunday_10PM"></td>
+                        <td id="Monday_10PM"></td>
+                        <td id="Tuesday_10PM"></td>
+                        <td id="Wednesday_10PM"></td>
+                        <td id="Thursday_10PM"></td>
+                        <td id="Friday_10PM"></td>
+                        <td id="Saturday_10PM"></td>
+                    </tr>
+                    <tr>
+                        <td class="time_col">11PM</td>
+                        <td id="Sunday_11PM"></td>
+                        <td id="Monday_11PM"></td>
+                        <td id="Tuesday_11PM"></td>
+                        <td id="Wednesday_11PM"></td>
+                        <td id="Thursday_11PM"></td>
+                        <td id="Friday_11PM"></td>
+                        <td id="Saturday_11PM"></td>
+                    </tr>
+                </table>
+                <img id="mic_icon" src="images/mic_icon.png" alt="mic ON">
+            </div>
 
             <div id="right">
                 <div id="time"></div>
@@ -51,18 +303,16 @@
 
                     <h4 style="margin: 4px 0px;">Weekly Forecast</h4>
                     <div id="weekly_forecast"></div>
-                
-                    
                 </div>
                 <div id="map_section"></div>
             </div>
             
             
         </section>
-        <script type="module" src="weather.js"></script>
-        <script type="module" src="reminder.js"></script>
-        <script type="module" src="calendar.js"></script>
-        <script type="module" src="maps.js"></script>
-        <script type="module" src="main.js"></script>
+        <script type="module" src="scripts/weather.js"></script>
+        <script type="module" src="scripts/reminder.js"></script>
+        <script type="module" src="scripts/calendar.js"></script>
+        <script type="module" src="scripts/maps.js"></script>
+        <script type="module" src="scripts/main.js"></script>
     </body>
 </html>

@@ -1,0 +1,41 @@
+[
+    {
+        "title": "Doctor's appointment",
+        "dates": [
+            "2024-04-01"
+        ],
+        "start_times": [
+            "17:00"
+        ],
+        "end_times": [
+            "18:00"
+        ],
+        "location": null
+    },
+    {
+        "title": "Basketball game",
+        "dates": [
+            "2024-04-02"
+        ],
+        "start_times": [
+            "20:00"
+        ],
+        "end_times": [
+            "22:00"
+        ],
+        "location": null
+    },
+    {
+        "title": "Birthday Party",
+        "dates": [
+            "2024-04-01"
+        ],
+        "start_times": [
+            "12:00"
+        ],
+        "end_times": [
+            "13:00"
+        ],
+        "location": null
+    }
+]

@@ -1,0 +1,41 @@
+[
+    {
+        "title": "Doctor's appointment",
+        "dates": [
+            "2024-04-04"
+        ],
+        "start_times": [
+            "17:00"
+        ],
+        "end_times": [
+            "18:00"
+        ],
+        "location": ""
+    },
+    {
+        "title": "Meeting",
+        "dates": [
+            "2024-04-04"
+        ],
+        "start_times": [
+            "12:00"
+        ],
+        "end_times": [
+            "13:00"
+        ],
+        "location": ""
+    },
+    {
+        "title": "Basketball game",
+        "dates": [
+            "2024-04-05"
+        ],
+        "start_times": [
+            "09:00"
+        ],
+        "end_times": [
+            "11:00"
+        ],
+        "location": ""
+    }
+]

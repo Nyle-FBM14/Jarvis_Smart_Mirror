@@ -83,7 +83,7 @@ tools = [
         "type": "function",
         "function":{
             "name": "create_event",
-            "description": "Creates a calendar event for the user. Use this instead of the function 'add_task' when the user specifies a time and/or location, or when the user mentions an event instead of a task.",
+            "description": "Creates a calendar event for the user. Use this instead of the function 'add_task' when the user specifies a time and/or location, or when the user mentions an event instead of a task. The output should have the same amount of start times and end times with no duplicates.",
             "parameters": {
                 "type": "object",
                 "properties": {
@@ -91,13 +91,17 @@ tools = [
                         "type": "string",
                         "description": "The title or short description of the event."
                     },
-                    "start": {
-                        "type": "integer",
-                        "description": "The title or short description of the event. If a start date or time is not given, assume the event begins at the current time. Parse the start date and time in Unix epoch format, with accuracy down to minutes. The current time in Unix epoch format is " + str(int(time.time()))
+                    "dates": {
+                        "type": "string",
+                        "description": "The dates that the event occurs on. If multiple dates are given, return a list of dates separated by commas. If no dates are given, then return the current date. Parse the date in the format YYYY-MM-DD. The current date in YYYY-MM-DD format is " + str(dt.today().strftime("%Y-%m-%d"))
                     },
-                    "end": {
-                        "type": "integer",
-                        "description": "The title or short description of the event. If an end date or time is not given, assume the event ends at the end of the day. Parse the end date and time in Unix epoch format, with accuracy down to minutes. The current time in Unix epoch format is " + str(int(time.time()))
+                    "start_times": {
+                        "type": "string",
+                        "description": "The start times that the event occurs on. If multiple start times are given, return a list of end times separated by commas. If no start times are given, then return the current time. Parse the time in the format hour:minute. The current time in hour:minute format is " + str(datetime.now().time().strftime("%H:%M"))
+                    },
+                    "end_times": {
+                        "type": "string",
+                        "description": "The end times that the event occurs on. If multiple end times are given, return a list of end times separated by commas. If no end times are given, then return the time an hour after the given start time. Parse the time in the format hour:minute. The current time in hour:minute format is " + str(datetime.now().time().strftime("%H:%M"))
                     },
                     "location": {
                         "type": "string",
@@ -213,7 +217,7 @@ def askJarvis(command):
             
             #calendar functions
             elif(function_to_call == create_event):
-                function_response = function_to_call(title = function_parameters.get("title"), start = function_parameters.get("start"), end = function_parameters.get("end"), location = function_parameters.get("location"))
+                function_response = function_to_call(title = function_parameters.get("title"), dates = function_parameters.get("dates"), start_times = function_parameters.get("start_times"), end_times = function_parameters.get("end_times"), location = function_parameters.get("location"))
                 
                 return "Event has been added to calendar." #saving tokens, can be removed
             elif(function_to_call == expandCalendar):
@@ -254,7 +258,9 @@ def initiateJarvis():
     while True:
         print("Listening for keyword")
         if(listen()):
+            eel.changeMicIcon("listening")
             getVoiceCommand()
+            eel.changeMicIcon("mic")
             command = transcribeCommand()["text"]
             print("Transcripted command: " + command)
 
