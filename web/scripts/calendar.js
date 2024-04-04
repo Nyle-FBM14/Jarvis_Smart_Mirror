@@ -5,7 +5,7 @@ function updateCalendarSection(daily_events){
     let header = document.createElement("h1");
     header.innerHTML = "Today's Events";
     for(let i = 0; i < daily_events.length; i++){
-        fetch(`./event.html`)
+        fetch(`../event.html`)
         .then(res => {
             if(res.ok) {
                 return res.text();
@@ -54,7 +54,7 @@ function updateWeekView(events){
         console.log(cell_id)
         let cell = document.getElementById(cell_id);
         cell.innerHTML = "";
-        fetch(`./event.html`)
+        fetch(`../event.html`)
         .then(res => {
             if(res.ok) {
                 return res.text();

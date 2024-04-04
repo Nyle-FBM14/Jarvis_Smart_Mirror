@@ -2,7 +2,7 @@ eel.expose(showMap);
 function showMap(map_data) {
     let map_section = document.getElementById("map_section");
     map_section.innerHTML = "";
-    fetch(`./map.html`)
+    fetch(`../map.html`)
     .then(res => {
         if(res.ok) {
             return res.text();

@@ -2,7 +2,7 @@ function updateReminderSection(incomplete_tasks){
     let reminder_section = document.getElementById("reminders_list");
     reminder_section.innerHTML = "";
     for(let i = 0; i < incomplete_tasks.length; i++){
-        fetch(`./reminders.html`)
+        fetch(`../reminders.html`)
         .then(res => {
             if(res.ok) {
                 return res.text();

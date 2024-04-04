@@ -24,8 +24,8 @@ def isWithinWeek(date, saturday):
     return d.date() <= saturday
 def eventIsLive(date, saturday):
     d = datetime.strptime(date, "%Y-%m-%d")
-    sunday = saturday - timedelta(days=6)
-    return d < (sunday)
+    sunday = saturday + timedelta(days=6)
+    return d.date() < (sunday)
 def loadEvents():
     global events
     if(not len(events)):
@@ -40,6 +40,7 @@ def saveEvents():
     new_events = []
     for event in events:
         if eventIsLive(event['dates'][-1], getLastWeekday()):
+            print("event is live")
             new_events.append(event)
     
     events = new_events
@@ -99,6 +100,8 @@ def create_event(title, dates, start_times, end_times,  location):
         start_times = str(datetime.now().time().strftime("%H:%M"))
     if(end_times == None):
         end_times = str((datetime.now() + timedelta(hours=1)).time().strftime("%H:%M"))
+    if(location == None):
+        location = ""
     date_list = dates.split(",")
     start_list = start_times.split(",")
     end_list = end_times.split(",")

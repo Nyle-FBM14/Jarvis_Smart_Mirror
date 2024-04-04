@@ -20,7 +20,7 @@ function updateWeatherSection(){
     for (let i = 0; i < 7; i++) {
         
         //hourly
-        fetch(`./hourly_weather.html`)
+        fetch(`../hourly_weather.html`)
         .then(res => {
             if(res.ok) {
                 return res.text();
@@ -37,7 +37,7 @@ function updateWeatherSection(){
             hourly_forecast.appendChild(temp);
         });
         //daily
-        fetch(`./weekly_weather.html`)
+        fetch(`../weekly_weather.html`)
         .then(res => {
             if(res.ok) {
                 return res.text();
