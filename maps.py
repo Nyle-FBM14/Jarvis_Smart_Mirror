@@ -4,6 +4,7 @@ import eel
 import requests
 from io import BytesIO
 from html.parser import HTMLParser
+import math
 
 from dotenv import load_dotenv
 from os import getenv
@@ -13,6 +14,22 @@ from facialrecognition import username
 
 home_address = "835+Roselawn+Avenue+Toronto+ON"
 work_address = "350+Victoria+Street+Toronto+ON"
+
+
+
+def geocode_address(address, api_key):
+    base_url = "https://maps.googleapis.com/maps/api/geocode/json"
+    params = {
+        "address": address,
+        "key": api_key
+    }
+    response = requests.get(base_url, params=params)
+    if response.status_code == 200:
+        data = response.json()
+        if data['status'] == 'OK' and len(data['results']) > 0:
+            location = data['results'][0]['geometry']['location']
+            return location['lat'], location['lng']
+    return None, None
 
 def get_addresses(username):
     address_file = f"Userdata/address/{username}.txt"
@@ -39,14 +56,66 @@ class HTMLStripper(HTMLParser):
     def handle_data(self, data):
         self.output += data
 
+def haversine_distance(lat1, lon1, lat2, lon2):
+    # Convert latitude and longitude from degrees to radians
+    lat1, lon1, lat2, lon2 = map(math.radians, [lat1, lon1, lat2, lon2])
+
+    # Haversine formula
+    dlon = lon2 - lon1
+    dlat = lat2 - lat1
+    a = math.sin(dlat/2)**2 + math.cos(lat1) * math.cos(lat2) * math.sin(dlon/2)**2
+    c = 2 * math.atan2(math.sqrt(a), math.sqrt(1-a))
+    radius = 6371  # Radius of the Earth in kilometers
+    distance = radius * c
+    return distance
+
+def calculate_zoom_level(distance):
+    zoom_distances = {
+        1: 10000,   # World
+        3: 5000,   # Landmass/continent
+        5: 1000,   # Landmass/continent
+        7: 250,   # City
+        10: 50,   # City
+        12: 15,     # Streets
+        13: 5,     # Streets
+        15: 1,     # Streets
+    }
+    for zoom, zoom_distance in sorted(zoom_distances.items(), reverse=True):
+        if distance < zoom_distance:
+            print (distance)
+            return zoom
+
+    return max(zoom_distances.keys())
 def build_static_map_url(location1, location2, api_key):
     base_url = "https://maps.googleapis.com/maps/api/staticmap?"
-    encoded_location1 = "+".join(location1.split())
-    encoded_location2 = "+".join(location2.split())
+    
+    # Geocode origin and destination addresses to obtain coordinates
+    origin_lat, origin_lon = geocode_address(location1, api_key)
+    destination_lat, destination_lon = geocode_address(location2, api_key)
+    
+    if origin_lat is None or origin_lon is None or destination_lat is None or destination_lon is None:
+        return None
+    
+    # Calculate distance between origin and destination
+    earth_radius_km = 6371.0
+    lat1_rad = math.radians(origin_lat)
+    lon1_rad = math.radians(origin_lon)
+    lat2_rad = math.radians(destination_lat)
+    lon2_rad = math.radians(destination_lon)
+    dlon = lon2_rad - lon1_rad
+    dlat = lat2_rad - lat1_rad
+    a = math.sin(dlat / 2)**2 + math.cos(lat1_rad) * math.cos(lat2_rad) * math.sin(dlon / 2)**2
+    c = 2 * math.atan2(math.sqrt(a), math.sqrt(1 - a))
+    distance_km = earth_radius_km * c
+    
+    zoom_level = calculate_zoom_level(distance_km)
+    
+    encoded_location1 = f"{origin_lat},{origin_lon}"
+    encoded_location2 = f"{destination_lat},{destination_lon}"
     parameters = {
         "center": f"{encoded_location1}|{encoded_location2}",
         "size": "400x400",
-        "zoom": 10,
+        "zoom": zoom_level,  # Use calculated zoom level
         "markers": f"{encoded_location1}|{encoded_location2}",
         "path": f"color:red|{encoded_location1}|{encoded_location2}",
         "key": api_key
